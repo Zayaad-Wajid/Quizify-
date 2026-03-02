@@ -1,0 +1,40 @@
+.qodo
+# Environment variables (contains API keys)
+.env
+backend/.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+backend/venv/
+*.egg-info/
+.eggs/
+
+# Database
+*.db
+backend/*.db
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Node modules (frontend)
+node_modules/
+frontend/node_modules/
+
+# Build outputs
+dist/
+build/
+frontend/dist/

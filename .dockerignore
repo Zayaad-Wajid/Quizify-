@@ -1,0 +1,22 @@
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+
+# Node modules (if any)
+node_modules
+frontend/node_modules
+
+# Docker files (no need to copy these into the container)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Logs
+logs/*.log
+
+# Readme
+README.md
