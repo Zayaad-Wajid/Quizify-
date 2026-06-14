@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Sparkles, BookOpen, Target, Layers } from "lucide-react";
+import { BookOpen, Layers, Sparkles, Target, Zap } from "lucide-react";
 import toast from "react-hot-toast";
 import { notesAPI } from "../services/api";
 import { useAuthStore } from "../store/authStore";
@@ -42,8 +42,7 @@ export default function NoteGenerator() {
       toast.success("Notes generated successfully!");
       navigate("/notes");
     } catch (error) {
-      const message =
-        error.response?.data?.detail || "Failed to generate notes";
+      const message = error.response?.data?.detail || "Failed to generate notes";
       toast.error(message);
     } finally {
       setIsGenerating(false);
@@ -51,119 +50,159 @@ export default function NoteGenerator() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="text-center mb-8">
-        <div className="w-16 h-16 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Sparkles className="w-8 h-8 text-secondary-600" />
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="lg:col-span-7">
+          <section className="relative overflow-hidden rounded-3xl border border-slate-700/70 bg-gradient-to-br from-slate-900 via-slate-800 to-violet-950 p-8 md:p-10 shadow-2xl">
+            <div className="absolute -top-16 right-8 w-56 h-56 bg-fuchsia-500/20 rounded-full blur-3xl" />
+            <div className="absolute -bottom-16 left-0 w-64 h-64 bg-cyan-500/15 rounded-full blur-3xl" />
+
+            <div className="relative z-10">
+              <p className="text-xs uppercase tracking-[0.2em] text-fuchsia-300 font-semibold">
+                Smart Notes Engine
+              </p>
+              <h1 className="text-3xl md:text-4xl font-bold text-slate-100 mt-2 leading-tight">
+                Generate structured, professional study notes
+              </h1>
+              <p className="text-slate-300 mt-4 max-w-2xl">
+                Build clean note packs with key concepts, examples, summaries,
+                and revision questions tailored to your topic.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
+                <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-4">
+                  <p className="text-xs text-slate-400">Structure</p>
+                  <p className="text-lg font-semibold text-slate-100 mt-1">9 Sections</p>
+                </div>
+                <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-4">
+                  <p className="text-xs text-slate-400">Format</p>
+                  <p className="text-lg font-semibold text-slate-100 mt-1">Markdown</p>
+                </div>
+                <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-4">
+                  <p className="text-xs text-slate-400">Use Case</p>
+                  <p className="text-lg font-semibold text-slate-100 mt-1">Revision</p>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
-        <h1 className="text-3xl font-bold text-gray-900">Generate Notes</h1>
-        <p className="text-gray-600 mt-2">
-          Create comprehensive study notes powered by AI
-        </p>
-      </div>
 
-      <div className="card">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="subject" className="label flex items-center">
-              <BookOpen className="w-4 h-4 mr-2" />
-              Subject *
-            </label>
-            <input
-              type="text"
-              id="subject"
-              name="subject"
-              value={formData.subject}
-              onChange={handleChange}
-              className="input"
-              placeholder="e.g., Physics, Mathematics, Programming"
-              required
-            />
-          </div>
+        <div className="lg:col-span-5">
+          <section className="card">
+            <h2 className="text-2xl font-bold text-slate-100">Note Configuration</h2>
+            <p className="text-slate-400 text-sm mt-2 mb-6">
+              Choose a subject, define the topic, and select your desired depth.
+            </p>
 
-          <div>
-            <label htmlFor="topic" className="label flex items-center">
-              <Target className="w-4 h-4 mr-2" />
-              Topic *
-            </label>
-            <input
-              type="text"
-              id="topic"
-              name="topic"
-              value={formData.topic}
-              onChange={handleChange}
-              className="input"
-              placeholder="e.g., Newton's Laws, Calculus Derivatives, React Hooks"
-              required
-            />
-          </div>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label htmlFor="subject" className="label flex items-center">
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  className="input"
+                  placeholder="e.g., Physics, Computer Science"
+                  required
+                />
+              </div>
 
-          <div>
-            <label htmlFor="detail_level" className="label flex items-center">
-              <Layers className="w-4 h-4 mr-2" />
-              Detail Level
-            </label>
-            <select
-              id="detail_level"
-              name="detail_level"
-              value={formData.detail_level}
-              onChange={handleChange}
-              className="input"
-            >
-              <option value="brief">Brief (Key points only)</option>
-              <option value="medium">Medium (Balanced detail)</option>
-              <option value="comprehensive">
-                Comprehensive (In-depth coverage)
-              </option>
-            </select>
-          </div>
+              <div>
+                <label htmlFor="topic" className="label flex items-center">
+                  <Target className="w-4 h-4 mr-2" />
+                  Topic
+                </label>
+                <input
+                  type="text"
+                  id="topic"
+                  name="topic"
+                  value={formData.topic}
+                  onChange={handleChange}
+                  className="input"
+                  placeholder="e.g., Newton's Laws, React Hooks"
+                  required
+                />
+              </div>
 
-          <button
-            type="submit"
-            disabled={isGenerating}
-            className="btn btn-secondary w-full py-3 text-lg"
-          >
-            {isGenerating ? (
-              <span className="flex items-center justify-center">
-                <svg
-                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
+              <div>
+                <label htmlFor="detail_level" className="label flex items-center">
+                  <Layers className="w-4 h-4 mr-2" />
+                  Detail Level
+                </label>
+                <select
+                  id="detail_level"
+                  name="detail_level"
+                  value={formData.detail_level}
+                  onChange={handleChange}
+                  className="input"
                 >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  />
-                </svg>
-                Generating Notes...
-              </span>
-            ) : (
-              <span className="flex items-center justify-center">
-                <Sparkles className="w-5 h-5 mr-2" />
-                Generate Notes
-              </span>
-            )}
-          </button>
-        </form>
-      </div>
+                  <option value="brief">Brief</option>
+                  <option value="medium">Medium</option>
+                  <option value="comprehensive">Comprehensive</option>
+                </select>
+              </div>
 
-      <div className="mt-8 p-4 bg-purple-50 rounded-lg">
-        <h3 className="font-medium text-purple-900 mb-2">What you'll get:</h3>
-        <ul className="text-sm text-purple-700 space-y-1">
-          <li>• Well-structured notes with clear headings</li>
-          <li>• Key concepts and definitions</li>
-          <li>• Relevant examples and explanations</li>
-          <li>• Summary and key takeaways</li>
-        </ul>
+              <button
+                type="submit"
+                disabled={isGenerating}
+                className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-fuchsia-500 to-violet-600 text-white px-4 py-3 font-semibold hover:from-fuchsia-400 hover:to-violet-500 disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                {isGenerating ? (
+                  <>
+                    <svg
+                      className="animate-spin h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                      />
+                    </svg>
+                    Generating Notes...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-5 h-5" />
+                    Generate Notes
+                  </>
+                )}
+              </button>
+            </form>
+          </section>
+
+          <section className="mt-6 rounded-2xl border border-slate-700 bg-slate-900/60 p-5">
+            <h3 className="text-sm font-semibold text-slate-100 mb-3">Output includes</h3>
+            <ul className="space-y-2 text-sm text-slate-300">
+              <li className="flex items-start gap-2">
+                <Zap className="w-4 h-4 mt-0.5 text-fuchsia-300" />
+                Intro, key concepts, and in-depth explanations
+              </li>
+              <li className="flex items-start gap-2">
+                <Zap className="w-4 h-4 mt-0.5 text-fuchsia-300" />
+                Worked examples and common mistakes
+              </li>
+              <li className="flex items-start gap-2">
+                <Zap className="w-4 h-4 mt-0.5 text-fuchsia-300" />
+                Review questions and takeaway summary
+              </li>
+            </ul>
+          </section>
+        </div>
       </div>
     </div>
   );

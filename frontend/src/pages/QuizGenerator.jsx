@@ -132,9 +132,7 @@ export default function QuizGenerator() {
                 <button
                   key={subject}
                   type="button"
-                  onClick={() =>
-                    setFormData((prev) => ({ ...prev, subject }))
-                  }
+                  onClick={() => setFormData((prev) => ({ ...prev, subject }))}
                   className="px-3 py-1.5 rounded-full border border-slate-300 text-slate-700 text-sm hover:border-primary-500 hover:text-primary-700 hover:bg-primary-50 transition-colors"
                 >
                   {subject}

@@ -10,37 +10,96 @@
   }
 
   body {
-    @apply font-sans antialiased bg-gray-50;
+    @apply font-sans antialiased text-slate-100;
+    background:
+      radial-gradient(
+        circle at 15% 20%,
+        rgba(56, 189, 248, 0.22),
+        transparent 28%
+      ),
+      radial-gradient(
+        circle at 85% 15%,
+        rgba(232, 121, 249, 0.18),
+        transparent 24%
+      ),
+      radial-gradient(
+        circle at 50% 85%,
+        rgba(99, 102, 241, 0.2),
+        transparent 26%
+      ),
+      linear-gradient(145deg, #020617 0%, #0b1022 45%, #111827 100%);
     margin: 0;
   }
 }
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-xl font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
   }
 
   .btn-primary {
-    @apply bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500;
+    @apply bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/25 hover:from-cyan-400 hover:to-blue-500 focus:ring-cyan-400;
   }
 
   .btn-secondary {
-    @apply bg-secondary-600 text-white hover:bg-secondary-700 focus:ring-secondary-500;
+    @apply bg-gradient-to-r from-fuchsia-500 to-violet-600 text-white shadow-lg shadow-fuchsia-500/20 hover:from-fuchsia-400 hover:to-violet-500 focus:ring-fuchsia-400;
   }
 
   .btn-outline {
-    @apply border-2 border-primary-600 text-primary-600 hover:bg-primary-600 hover:text-white focus:ring-primary-500;
+    @apply border border-cyan-400/50 text-cyan-200 bg-slate-900/40 hover:bg-cyan-500/15 hover:text-cyan-100 focus:ring-cyan-400;
   }
 
   .card {
-    @apply bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-200;
+    @apply bg-slate-900/65 backdrop-blur-sm border border-slate-700/70 rounded-2xl shadow-xl p-6 hover:border-cyan-400/40 transition-all duration-200;
   }
 
   .input {
-    @apply w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition-all duration-200;
+    @apply w-full px-4 py-3 rounded-xl border border-slate-600 bg-slate-900/70 text-slate-100 placeholder:text-slate-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/25 outline-none transition-all duration-200;
   }
 
   .label {
-    @apply block text-sm font-medium text-gray-700 mb-1;
+    @apply block text-sm font-medium text-slate-300 mb-1;
+  }
+
+  .theme-panel {
+    @apply bg-slate-900/60 border border-slate-700/70 rounded-2xl backdrop-blur-sm;
+  }
+}
+
+@layer utilities {
+  .theme-dark .text-gray-900 {
+    @apply text-slate-100;
+  }
+
+  .theme-dark .text-gray-700 {
+    @apply text-slate-300;
+  }
+
+  .theme-dark .text-gray-600 {
+    @apply text-slate-400;
+  }
+
+  .theme-dark .text-gray-500 {
+    @apply text-slate-500;
+  }
+
+  .theme-dark .text-gray-400 {
+    @apply text-slate-500;
+  }
+
+  .theme-dark .bg-gray-50 {
+    @apply bg-slate-900/40;
+  }
+
+  .theme-dark .bg-gray-100 {
+    @apply bg-slate-800/70;
+  }
+
+  .theme-dark .border-gray-200 {
+    @apply border-slate-700;
+  }
+
+  .theme-dark .border-gray-300 {
+    @apply border-slate-600;
   }
 }

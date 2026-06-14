@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from "react";
-import { Send, Bot, User, Sparkles, Trash2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Bot, Send, Sparkles, Trash2, User } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import toast from "react-hot-toast";
 import { aiAPI } from "../services/api";
@@ -45,7 +45,7 @@ export default function Assistant() {
         ...prev,
         { role: "assistant", content: response.data.response },
       ]);
-    } catch (error) {
+    } catch {
       toast.error("Failed to get response");
       setMessages((prev) => [
         ...prev,
@@ -77,57 +77,51 @@ export default function Assistant() {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 h-[calc(100vh-180px)] flex flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10 h-[calc(100vh-140px)] flex flex-col">
+      <header className="mb-6 flex items-center justify-between gap-4">
         <div className="flex items-center">
-          <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center mr-4">
-            <Bot className="w-6 h-6 text-white" />
+          <div className="w-12 h-12 bg-gradient-to-br from-cyan-400 to-fuchsia-500 rounded-xl flex items-center justify-center mr-4 shadow-lg shadow-cyan-500/20">
+            <Bot className="w-6 h-6 text-slate-950" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">AI Assistant</h1>
-            <p className="text-sm text-gray-500">Powered by Gemini AI</p>
+            <h1 className="text-2xl md:text-3xl font-bold text-slate-100">AI Assistant</h1>
+            <p className="text-sm text-slate-400">Powered by Gemini AI</p>
           </div>
         </div>
+
         <button onClick={clearChat} className="btn btn-outline text-sm">
           <Trash2 className="w-4 h-4 mr-2" />
           Clear Chat
         </button>
-      </div>
+      </header>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto bg-gray-50 rounded-xl p-4 space-y-4">
+      <main className="flex-1 overflow-y-auto rounded-2xl border border-slate-700 bg-slate-900/60 p-4 md:p-5 space-y-4">
         {messages.map((message, index) => (
           <div
             key={index}
-            className={`flex items-start gap-3 ${
-              message.role === "user" ? "flex-row-reverse" : ""
-            }`}
+            className={`flex items-start gap-3 ${message.role === "user" ? "flex-row-reverse" : ""}`}
           >
             <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+              className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 ${
                 message.role === "user"
-                  ? "bg-primary-600 text-white"
-                  : "bg-gradient-to-br from-primary-500 to-secondary-500 text-white"
+                  ? "bg-cyan-500 text-slate-950"
+                  : "bg-gradient-to-br from-cyan-400 to-fuchsia-500 text-slate-950"
               }`}
             >
-              {message.role === "user" ? (
-                <User className="w-4 h-4" />
-              ) : (
-                <Bot className="w-4 h-4" />
-              )}
+              {message.role === "user" ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
             </div>
+
             <div
-              className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+              className={`max-w-[85%] rounded-2xl px-4 py-3 ${
                 message.role === "user"
-                  ? "bg-primary-600 text-white"
-                  : "bg-white shadow-sm border"
+                  ? "bg-cyan-500 text-slate-950"
+                  : "bg-slate-800 border border-slate-700 text-slate-100"
               }`}
             >
               {message.role === "user" ? (
                 <p>{message.content}</p>
               ) : (
-                <div className="prose prose-sm max-w-none">
+                <div className="prose prose-invert prose-sm max-w-none">
                   <ReactMarkdown>{message.content}</ReactMarkdown>
                 </div>
               )}
@@ -137,41 +131,31 @@ export default function Assistant() {
 
         {isLoading && (
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center">
-              <Bot className="w-4 h-4 text-white" />
+            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-400 to-fuchsia-500 flex items-center justify-center">
+              <Bot className="w-4 h-4 text-slate-950" />
             </div>
-            <div className="bg-white shadow-sm border rounded-2xl px-4 py-3">
+            <div className="bg-slate-800 border border-slate-700 rounded-2xl px-4 py-3">
               <div className="flex gap-1">
-                <div
-                  className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                  style={{ animationDelay: "0ms" }}
-                ></div>
-                <div
-                  className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                  style={{ animationDelay: "150ms" }}
-                ></div>
-                <div
-                  className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                  style={{ animationDelay: "300ms" }}
-                ></div>
+                <div className="w-2 h-2 bg-slate-300 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                <div className="w-2 h-2 bg-slate-300 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                <div className="w-2 h-2 bg-slate-300 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
               </div>
             </div>
           </div>
         )}
 
         <div ref={messagesEndRef} />
-      </div>
+      </main>
 
-      {/* Suggested Questions (show when no user messages) */}
       {messages.length === 1 && (
         <div className="py-4">
-          <p className="text-sm text-gray-500 mb-3">Try asking:</p>
+          <p className="text-sm text-slate-400 mb-3">Try asking:</p>
           <div className="flex flex-wrap gap-2">
             {suggestedQuestions.map((question, index) => (
               <button
                 key={index}
                 onClick={() => setInput(question)}
-                className="px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200 transition-colors"
+                className="px-3 py-1.5 bg-slate-800 border border-slate-700 text-slate-300 rounded-lg text-sm hover:border-cyan-400/40 hover:text-cyan-200 transition-colors"
               >
                 <Sparkles className="w-3 h-3 inline mr-1" />
                 {question}
@@ -181,7 +165,6 @@ export default function Assistant() {
         </div>
       )}
 
-      {/* Input */}
       <form onSubmit={handleSubmit} className="mt-4">
         <div className="flex gap-3">
           <input
@@ -195,7 +178,7 @@ export default function Assistant() {
           <button
             type="submit"
             disabled={!input.trim() || isLoading}
-            className="btn btn-primary px-6 disabled:opacity-50"
+            className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-5 py-2.5 font-semibold hover:from-cyan-400 hover:to-blue-500 disabled:opacity-50"
           >
             <Send className="w-5 h-5" />
           </button>

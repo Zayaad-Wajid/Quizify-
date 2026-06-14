@@ -206,8 +206,8 @@ export default function TakeQuiz() {
                 />
               </div>
               <p className="text-sm text-slate-600 mt-3">
-                You answered {result.correct_answers.length} questions correctly.
-                Review missed concepts and retake for mastery.
+                You answered {result.correct_answers.length} questions
+                correctly. Review missed concepts and retake for mastery.
               </p>
             </div>
 
@@ -259,7 +259,9 @@ export default function TakeQuiz() {
                 <p className="text-sm text-slate-200">Time Elapsed</p>
                 <Clock className="w-4 h-4 text-slate-300" />
               </div>
-              <p className="text-3xl font-bold mt-2">{formatTime(timeElapsed)}</p>
+              <p className="text-3xl font-bold mt-2">
+                {formatTime(timeElapsed)}
+              </p>
             </div>
 
             <div className="mt-4">
