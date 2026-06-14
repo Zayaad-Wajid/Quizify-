@@ -84,7 +84,9 @@ export default function Assistant() {
             <Bot className="w-6 h-6 text-slate-950" />
           </div>
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-slate-100">AI Assistant</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-slate-100">
+              AI Assistant
+            </h1>
             <p className="text-sm text-slate-400">Powered by Gemini AI</p>
           </div>
         </div>
@@ -108,7 +110,11 @@ export default function Assistant() {
                   : "bg-gradient-to-br from-cyan-400 to-fuchsia-500 text-slate-950"
               }`}
             >
-              {message.role === "user" ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+              {message.role === "user" ? (
+                <User className="w-4 h-4" />
+              ) : (
+                <Bot className="w-4 h-4" />
+              )}
             </div>
 
             <div
@@ -136,9 +142,18 @@ export default function Assistant() {
             </div>
             <div className="bg-slate-800 border border-slate-700 rounded-2xl px-4 py-3">
               <div className="flex gap-1">
-                <div className="w-2 h-2 bg-slate-300 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                <div className="w-2 h-2 bg-slate-300 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                <div className="w-2 h-2 bg-slate-300 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                <div
+                  className="w-2 h-2 bg-slate-300 rounded-full animate-bounce"
+                  style={{ animationDelay: "0ms" }}
+                />
+                <div
+                  className="w-2 h-2 bg-slate-300 rounded-full animate-bounce"
+                  style={{ animationDelay: "150ms" }}
+                />
+                <div
+                  className="w-2 h-2 bg-slate-300 rounded-full animate-bounce"
+                  style={{ animationDelay: "300ms" }}
+                />
               </div>
             </div>
           </div>

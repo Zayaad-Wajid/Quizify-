@@ -69,8 +69,12 @@ export default function Notes() {
     return (
       <div className="max-w-3xl mx-auto px-4 py-16 text-center">
         <FileText className="w-16 h-16 text-slate-500 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-slate-100 mb-2">Sign in to access Notes</h1>
-        <p className="text-slate-400 mb-6">Create and manage your personal study notes</p>
+        <h1 className="text-2xl font-bold text-slate-100 mb-2">
+          Sign in to access Notes
+        </h1>
+        <p className="text-slate-400 mb-6">
+          Create and manage your personal study notes
+        </p>
         <Link to="/login" className="btn btn-primary">
           Sign In
         </Link>
@@ -85,9 +89,15 @@ export default function Notes() {
         <div className="absolute -bottom-12 left-0 w-64 h-64 bg-cyan-500/15 rounded-full blur-3xl" />
         <div className="relative z-10 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-fuchsia-300 font-semibold">Knowledge Vault</p>
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-100 mt-2">My Notes</h1>
-            <p className="text-slate-300 mt-2">Organize and review AI-generated study materials.</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-fuchsia-300 font-semibold">
+              Knowledge Vault
+            </p>
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-100 mt-2">
+              My Notes
+            </h1>
+            <p className="text-slate-300 mt-2">
+              Organize and review AI-generated study materials.
+            </p>
           </div>
           <Link to="/notes/generate" className="btn btn-secondary">
             <Plus className="w-5 h-5 mr-2" />
@@ -149,15 +159,25 @@ export default function Notes() {
       ) : notes.length === 0 ? (
         <div className="card text-center py-12">
           <FileText className="w-16 h-16 text-slate-500 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-slate-100 mb-2">No notes yet</h3>
-          <p className="text-slate-400 mb-4">Start by generating AI-powered notes.</p>
+          <h3 className="text-lg font-semibold text-slate-100 mb-2">
+            No notes yet
+          </h3>
+          <p className="text-slate-400 mb-4">
+            Start by generating AI-powered notes.
+          </p>
           <Link to="/notes/generate" className="btn btn-secondary">
             <Plus className="w-5 h-5 mr-2" />
             Generate Notes
           </Link>
         </div>
       ) : (
-        <div className={viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" : "space-y-4"}>
+        <div
+          className={
+            viewMode === "grid"
+              ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+              : "space-y-4"
+          }
+        >
           {notes.map((note) => (
             <div
               key={note.id}
@@ -176,7 +196,10 @@ export default function Notes() {
                     }}
                     className={`p-1 rounded ${note.is_favorite ? "text-yellow-400" : "text-slate-500 hover:text-yellow-300"}`}
                   >
-                    <Star className="w-5 h-5" fill={note.is_favorite ? "currentColor" : "none"} />
+                    <Star
+                      className="w-5 h-5"
+                      fill={note.is_favorite ? "currentColor" : "none"}
+                    />
                   </button>
                   <button
                     onClick={(e) => {
@@ -190,7 +213,9 @@ export default function Notes() {
                 </div>
               </div>
 
-              <h3 className="font-semibold text-slate-100 mb-2 line-clamp-2">{note.title}</h3>
+              <h3 className="font-semibold text-slate-100 mb-2 line-clamp-2">
+                {note.title}
+              </h3>
               <p className="text-sm text-slate-400">{note.subject}</p>
             </div>
           ))}
@@ -206,8 +231,12 @@ export default function Notes() {
                   <FileText className="w-5 h-5 text-cyan-300" />
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-slate-400 uppercase tracking-wide">{selectedNote.subject}</p>
-                  <h2 className="text-base font-bold text-slate-100 leading-tight">{selectedNote.topic || selectedNote.title}</h2>
+                  <p className="text-xs font-medium text-slate-400 uppercase tracking-wide">
+                    {selectedNote.subject}
+                  </p>
+                  <h2 className="text-base font-bold text-slate-100 leading-tight">
+                    {selectedNote.topic || selectedNote.title}
+                  </h2>
                 </div>
               </div>
               <button
@@ -232,7 +261,10 @@ export default function Notes() {
                   day: "numeric",
                 })}
               </span>
-              <button onClick={() => setSelectedNote(null)} className="text-sm text-slate-400 hover:text-slate-200 font-medium">
+              <button
+                onClick={() => setSelectedNote(null)}
+                className="text-sm text-slate-400 hover:text-slate-200 font-medium"
+              >
                 Close
               </button>
             </div>

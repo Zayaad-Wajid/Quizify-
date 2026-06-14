@@ -42,7 +42,8 @@ export default function NoteGenerator() {
       toast.success("Notes generated successfully!");
       navigate("/notes");
     } catch (error) {
-      const message = error.response?.data?.detail || "Failed to generate notes";
+      const message =
+        error.response?.data?.detail || "Failed to generate notes";
       toast.error(message);
     } finally {
       setIsGenerating(false);
@@ -72,15 +73,21 @@ export default function NoteGenerator() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
                 <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-4">
                   <p className="text-xs text-slate-400">Structure</p>
-                  <p className="text-lg font-semibold text-slate-100 mt-1">9 Sections</p>
+                  <p className="text-lg font-semibold text-slate-100 mt-1">
+                    9 Sections
+                  </p>
                 </div>
                 <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-4">
                   <p className="text-xs text-slate-400">Format</p>
-                  <p className="text-lg font-semibold text-slate-100 mt-1">Markdown</p>
+                  <p className="text-lg font-semibold text-slate-100 mt-1">
+                    Markdown
+                  </p>
                 </div>
                 <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-4">
                   <p className="text-xs text-slate-400">Use Case</p>
-                  <p className="text-lg font-semibold text-slate-100 mt-1">Revision</p>
+                  <p className="text-lg font-semibold text-slate-100 mt-1">
+                    Revision
+                  </p>
                 </div>
               </div>
             </div>
@@ -89,7 +96,9 @@ export default function NoteGenerator() {
 
         <div className="lg:col-span-5">
           <section className="card">
-            <h2 className="text-2xl font-bold text-slate-100">Note Configuration</h2>
+            <h2 className="text-2xl font-bold text-slate-100">
+              Note Configuration
+            </h2>
             <p className="text-slate-400 text-sm mt-2 mb-6">
               Choose a subject, define the topic, and select your desired depth.
             </p>
@@ -130,7 +139,10 @@ export default function NoteGenerator() {
               </div>
 
               <div>
-                <label htmlFor="detail_level" className="label flex items-center">
+                <label
+                  htmlFor="detail_level"
+                  className="label flex items-center"
+                >
                   <Layers className="w-4 h-4 mr-2" />
                   Detail Level
                 </label>
@@ -186,7 +198,9 @@ export default function NoteGenerator() {
           </section>
 
           <section className="mt-6 rounded-2xl border border-slate-700 bg-slate-900/60 p-5">
-            <h3 className="text-sm font-semibold text-slate-100 mb-3">Output includes</h3>
+            <h3 className="text-sm font-semibold text-slate-100 mb-3">
+              Output includes
+            </h3>
             <ul className="space-y-2 text-sm text-slate-300">
               <li className="flex items-start gap-2">
                 <Zap className="w-4 h-4 mt-0.5 text-fuchsia-300" />

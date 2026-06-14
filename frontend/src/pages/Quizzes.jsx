@@ -69,15 +69,21 @@ export default function Quizzes() {
         <div className="relative z-10 mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-4">
             <p className="text-xs text-slate-400">Total Quizzes</p>
-            <p className="text-2xl font-bold text-slate-100 mt-1">{stats.total}</p>
+            <p className="text-2xl font-bold text-slate-100 mt-1">
+              {stats.total}
+            </p>
           </div>
           <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-4">
             <p className="text-xs text-slate-400">Subjects Covered</p>
-            <p className="text-2xl font-bold text-slate-100 mt-1">{stats.subjects}</p>
+            <p className="text-2xl font-bold text-slate-100 mt-1">
+              {stats.subjects}
+            </p>
           </div>
           <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-4">
             <p className="text-xs text-slate-400">Advanced Quizzes</p>
-            <p className="text-2xl font-bold text-slate-100 mt-1">{stats.hard}</p>
+            <p className="text-2xl font-bold text-slate-100 mt-1">
+              {stats.hard}
+            </p>
           </div>
         </div>
       </section>
@@ -126,8 +132,12 @@ export default function Quizzes() {
       ) : quizzes.length === 0 ? (
         <div className="card text-center py-14">
           <BookOpen className="w-16 h-16 text-slate-500 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-slate-100 mb-2">No quizzes found</h3>
-          <p className="text-slate-400 mb-5">Generate your first quiz to start practicing.</p>
+          <h3 className="text-lg font-semibold text-slate-100 mb-2">
+            No quizzes found
+          </h3>
+          <p className="text-slate-400 mb-5">
+            Generate your first quiz to start practicing.
+          </p>
           <Link to="/quizzes/generate" className="btn btn-primary">
             <Plus className="w-5 h-5 mr-2" />
             Generate Quiz
@@ -143,7 +153,8 @@ export default function Quizzes() {
                 </div>
                 <span
                   className={`px-3 py-1 rounded-full text-xs font-semibold border ${
-                    difficultyStyles[quiz.difficulty] || "border-slate-600 bg-slate-700/50 text-slate-200"
+                    difficultyStyles[quiz.difficulty] ||
+                    "border-slate-600 bg-slate-700/50 text-slate-200"
                   }`}
                 >
                   {quiz.difficulty}
