@@ -10,7 +10,7 @@ class GeminiService:
     def __init__(self):
         self.api_key = settings.GEMINI_API_KEY
         self.base_url = "https://generativelanguage.googleapis.com/v1beta/models"
-        self.model = "gemini-2.0-flash"
+        self.model = "gemini-2.5-flash"
     
     async def _generate_content(
         self,
@@ -129,28 +129,110 @@ Make sure:
         detail_level: str = "medium"
     ) -> str:
         detail_instructions = {
-            "brief": "Keep the notes concise, with key points and definitions only. About 300-500 words.",
-            "medium": "Provide moderately detailed notes with explanations and examples. About 700-1000 words.",
-            "comprehensive": "Provide comprehensive notes with detailed explanations, multiple examples, and additional context. About 1500-2000 words."
+            "brief": "Be concise. Each section should be focused and tight — aim for 350-500 words total.",
+            "medium": "Provide balanced depth with clear explanations and at least one example per concept — aim for 800-1100 words total.",
+            "comprehensive": "Be thorough: multiple examples, deeper explanations, common misconceptions, and extended further reading — aim for 1600-2200 words total."
         }
-        
-        prompt = f"""Create study notes about {topic} in the subject of {subject}.
 
-{detail_instructions.get(detail_level, detail_instructions["medium"])}
+        from datetime import date
+        today = date.today().strftime("%B %d, %Y")
 
-Structure the notes with:
-1. Introduction/Overview
-2. Key Concepts
-3. Important Formulas/Rules (if applicable)
-4. Examples
-5. Summary/Key Takeaways
+        prompt = f"""You are an expert academic tutor. Generate a professionally structured study note document for the following:
 
-Use markdown formatting for better readability (headers, bullet points, bold text, etc.).
+Subject: {subject}
+Topic: {topic}
+Detail Level: {detail_level.capitalize()}
+Date: {today}
+
+Instruction: {detail_instructions.get(detail_level, detail_instructions["medium"])}
+
+Produce the notes in clean Markdown following EXACTLY this structure. Do not skip any section. Use the exact section headings shown.
+
+---
+
+# {topic}
+
+**Subject:** {subject} &nbsp;|&nbsp; **Detail Level:** {detail_level.capitalize()} &nbsp;|&nbsp; **Date:** {today}
+
+---
+
+## I. Introduction
+
+Write a 2–4 sentence overview that explains what this topic is, why it matters, and what the student will understand after reading these notes.
+
+---
+
+## II. Key Concepts
+
+List the 3–6 most important concepts for this topic. For each one use this format:
+
+**Concept N — [Concept Name]:** A clear, precise definition or explanation of the concept.
+
+---
+
+## III. In-Depth Explanations
+
+For each concept listed in Section II, write a dedicated sub-section that expands on it with additional context, how it relates to other concepts, and why it is important.
+
+### [Concept Name]
+[Expanded explanation here]
+
+---
+
+## IV. Formulas, Rules & Notation *(skip this section only if the topic has absolutely no formulas or formal rules)*
+
+Present every relevant formula or rule in a clear format. Use LaTeX-style notation wrapped in backticks if needed. Briefly explain each one.
+
+---
+
+## V. Worked Examples
+
+Provide {"1 worked example" if detail_level == "brief" else "2–3 worked examples" if detail_level == "medium" else "3–5 worked examples"} that illustrate the concepts. Show step-by-step reasoning where applicable.
+
+**Example 1:**
+> [Problem statement]
+
+**Solution:**
+[Step-by-step solution]
+
+---
+
+## VI. Common Mistakes & Misconceptions
+
+List 2–4 mistakes students commonly make with this topic and how to avoid them.
+
+---
+
+## VII. Quick Review Questions
+
+Write {"3" if detail_level == "brief" else "5" if detail_level == "medium" else "7"} short review questions to test understanding. Number them.
+
+1. [Question]
+
+---
+
+## VIII. Key Takeaways
+
+Provide a tight bullet-point summary of the most important points a student must remember.
+
+- [Takeaway]
+
+---
+
+## IX. Further Reading & Resources
+
+Suggest 2–4 specific, credible resources (textbooks, official docs, reputable websites) relevant to this topic.
+
+- [Resource]
+
+---
+
+IMPORTANT: Output only the Markdown document above. Do not add any preamble, commentary, or closing remarks outside the document structure.
 """
-        
+
         contents = [{"role": "user", "parts": [{"text": prompt}]}]
-        
-        return await self._generate_content(contents, temperature=0.7, max_tokens=4096)
+
+        return await self._generate_content(contents, temperature=0.4, max_tokens=4096)
     
     async def chat(
         self,

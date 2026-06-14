@@ -225,19 +225,53 @@ export default function Notes() {
 
       {/* Note Detail Modal */}
       {selectedNote && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl max-w-3xl w-full max-h-[80vh] overflow-hidden">
-            <div className="p-6 border-b flex items-center justify-between">
-              <h2 className="text-xl font-bold">{selectedNote.title}</h2>
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl flex flex-col">
+            {/* Modal toolbar */}
+            <div className="flex items-center justify-between px-6 py-4 border-b bg-gray-50 rounded-t-2xl shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-primary-100 flex items-center justify-center">
+                  <FileText className="w-5 h-5 text-primary-600" />
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                    {selectedNote.subject}
+                  </p>
+                  <h2 className="text-base font-bold text-gray-900 leading-tight">
+                    {selectedNote.topic || selectedNote.title}
+                  </h2>
+                </div>
+              </div>
               <button
                 onClick={() => setSelectedNote(null)}
-                className="text-gray-500 hover:text-gray-700"
+                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-200 text-gray-500 hover:text-gray-800 transition-colors text-lg font-bold"
               >
                 ✕
               </button>
             </div>
-            <div className="p-6 overflow-y-auto max-h-[60vh] prose prose-sm max-w-none">
-              <ReactMarkdown>{selectedNote.content}</ReactMarkdown>
+
+            {/* Note content */}
+            <div className="overflow-y-auto flex-1 px-8 py-6">
+              <div className="prose prose-slate prose-headings:font-bold prose-h1:text-2xl prose-h2:text-xl prose-h2:mt-8 prose-h2:mb-3 prose-h3:text-base prose-h3:mt-5 prose-h3:mb-2 prose-p:leading-relaxed prose-li:leading-relaxed prose-strong:text-gray-900 prose-blockquote:border-primary-400 prose-blockquote:bg-primary-50 prose-blockquote:rounded prose-blockquote:px-4 prose-blockquote:py-1 prose-hr:border-gray-200 max-w-none">
+                <ReactMarkdown>{selectedNote.content}</ReactMarkdown>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="px-6 py-3 border-t bg-gray-50 rounded-b-2xl flex items-center justify-between shrink-0">
+              <span className="text-xs text-gray-400">
+                {new Date(selectedNote.created_at).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </span>
+              <button
+                onClick={() => setSelectedNote(null)}
+                className="text-sm text-gray-500 hover:text-gray-800 font-medium"
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>
