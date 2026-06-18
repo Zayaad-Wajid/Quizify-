@@ -1,4 +1,26 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-quizify}
+      - POSTGRES_USER=${POSTGRES_USER:-quizify}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-quizify_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - quizify-network
+
+  adminer:
+    image: adminer:4
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - quizify-network
+
   backend:
     build:
       context: ./backend
@@ -6,12 +28,13 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=sqlite:///./quizify.db
-      - SECRET_KEY=your-super-secret-key-change-in-production
+      - DATABASE_URL=${DATABASE_URL:-postgresql://quizify:quizify_password@postgres:5432/quizify}
+      - SECRET_KEY=${SECRET_KEY:-your-super-secret-key-change-in-production}
       - GEMINI_API_KEY=${GEMINI_API_KEY}
+    depends_on:
+      - postgres
     volumes:
       - ./backend:/app
-      - backend_data:/app/data
     networks:
       - quizify-network
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
@@ -38,4 +61,4 @@ networks:
     driver: bridge
 
 volumes:
-  backend_data:
+  postgres_data:

@@ -14,7 +14,6 @@ export default function Quizzes() {
   const [quizzes, setQuizzes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState({
-    subject: "",
     difficulty: "",
   });
 
@@ -36,8 +35,8 @@ export default function Quizzes() {
   const stats = useMemo(() => {
     const total = quizzes.length;
     const hard = quizzes.filter((q) => q.difficulty === "hard").length;
-    const subjects = new Set(quizzes.map((q) => q.subject)).size;
-    return { total, hard, subjects };
+    const topics = new Set(quizzes.map((q) => q.topic).filter(Boolean)).size;
+    return { total, hard, topics };
   }, [quizzes]);
 
   return (
@@ -55,8 +54,8 @@ export default function Quizzes() {
               Professional Quiz Workspace
             </h1>
             <p className="text-slate-300 mt-3 max-w-2xl">
-              Browse generated quizzes, filter by difficulty, and jump directly
-              into focused practice sessions.
+              Browse generated coding quizzes, filter by difficulty, and jump
+              directly into focused practice sessions.
             </p>
           </div>
 
@@ -74,9 +73,9 @@ export default function Quizzes() {
             </p>
           </div>
           <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-4">
-            <p className="text-xs text-slate-400">Subjects Covered</p>
+            <p className="text-xs text-slate-400">Topics Covered</p>
             <p className="text-2xl font-bold text-slate-100 mt-1">
-              {stats.subjects}
+              {stats.topics}
             </p>
           </div>
           <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-4">
@@ -89,24 +88,7 @@ export default function Quizzes() {
       </section>
 
       <section className="card mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="label">Subject</label>
-            <select
-              value={filters.subject}
-              onChange={(e) =>
-                setFilters((prev) => ({ ...prev, subject: e.target.value }))
-              }
-              className="input"
-            >
-              <option value="">All Subjects</option>
-              <option value="coding">Coding</option>
-              <option value="mathematics">Mathematics</option>
-              <option value="physics">Physics</option>
-              <option value="science">Science</option>
-            </select>
-          </div>
-
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
           <div>
             <label className="label">Difficulty</label>
             <select
@@ -167,7 +149,7 @@ export default function Quizzes() {
 
               <div className="flex items-center text-sm text-slate-400 mb-5">
                 <Target className="w-4 h-4 mr-1" />
-                {quiz.question_count} questions
+                {quiz.topic || `${quiz.question_count} questions`}
               </div>
 
               <Link

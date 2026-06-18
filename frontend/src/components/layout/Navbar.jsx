@@ -4,6 +4,7 @@ import {
   Menu,
   X,
   Home,
+  LayoutDashboard,
   BookOpen,
   Trophy,
   FileText,
@@ -13,8 +14,16 @@ import {
 } from "lucide-react";
 import { useAuthStore } from "../../store/authStore";
 
-const navItems = [
+const publicNavItems = [
   { path: "/", label: "Home", icon: Home },
+  { path: "/quizzes", label: "Quizzes", icon: BookOpen },
+  { path: "/leaderboard", label: "Leaderboard", icon: Trophy },
+  { path: "/notes", label: "Notes", icon: FileText },
+  { path: "/assistant", label: "Assistant", icon: MessageCircle },
+];
+
+const authenticatedNavItems = [
+  { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { path: "/quizzes", label: "Quizzes", icon: BookOpen },
   { path: "/leaderboard", label: "Leaderboard", icon: Trophy },
   { path: "/notes", label: "Notes", icon: FileText },
@@ -26,6 +35,7 @@ export default function Navbar() {
   const { isAuthenticated, user, logout } = useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
+  const navItems = isAuthenticated ? authenticatedNavItems : publicNavItems;
 
   const handleLogout = () => {
     logout();
@@ -37,7 +47,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3">
+          <Link to={isAuthenticated ? "/dashboard" : "/"} className="flex items-center gap-3">
             <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 text-slate-950 font-black text-lg shadow-md shadow-cyan-500/30">
               Q
             </span>

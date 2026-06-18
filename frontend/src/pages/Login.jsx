@@ -40,7 +40,7 @@ export default function Login() {
     try {
       await login(payload);
       toast.success("Welcome back!");
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       const message =
         error.response?.data?.detail ||

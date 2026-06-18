@@ -13,6 +13,7 @@ from app.services.gemini import GeminiService
 
 router = APIRouter(prefix="/quizzes", tags=["Quizzes"])
 gemini_service = GeminiService()
+CODING_SUBJECT = "Coding"
 
 
 @router.get("/", response_model=List[QuizListResponse])
@@ -24,10 +25,8 @@ async def get_quizzes(
     db: Session = Depends(get_db),
     current_user: Optional[User] = Depends(get_current_user_optional)
 ):
-    query = db.query(Quiz).filter(Quiz.is_public == True)
+    query = db.query(Quiz).filter(Quiz.is_public == True, Quiz.subject == CODING_SUBJECT)
     
-    if subject:
-        query = query.filter(Quiz.subject.ilike(f"%{subject}%"))
     if difficulty:
         query = query.filter(Quiz.difficulty == difficulty)
     
@@ -65,9 +64,16 @@ async def generate_quiz(
     current_user: Optional[User] = Depends(get_current_user_optional)
 ):
     try:
+        requested_subject = (request.subject or "").strip().lower()
+        if requested_subject and requested_subject != "coding":
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Quizify only supports coding quizzes.",
+            )
+
         # Generate quiz using Gemini
         questions = await gemini_service.generate_quiz(
-            subject=request.subject,
+            subject=CODING_SUBJECT,
             topic=request.topic,
             difficulty=request.difficulty,
             question_count=request.question_count,
@@ -75,7 +81,7 @@ async def generate_quiz(
         )
         
         # Create title
-        title = f"{request.subject}"
+        title = CODING_SUBJECT
         if request.topic:
             title += f" - {request.topic}"
         title += f" ({request.difficulty.capitalize()})"
@@ -83,7 +89,7 @@ async def generate_quiz(
         # Create quiz in database
         quiz = Quiz(
             title=title,
-            subject=request.subject,
+            subject=CODING_SUBJECT,
             topic=request.topic,
             difficulty=request.difficulty,
             question_count=len(questions),
@@ -113,7 +119,7 @@ async def submit_quiz(
     current_user: User = Depends(get_current_user)
 ):
     # Get quiz
-    quiz = db.query(Quiz).filter(Quiz.id == quiz_id).first()
+    quiz = db.query(Quiz).filter(Quiz.id == quiz_id, Quiz.subject == CODING_SUBJECT).first()
     if not quiz:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -164,7 +170,7 @@ async def delete_quiz(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    quiz = db.query(Quiz).filter(Quiz.id == quiz_id).first()
+    quiz = db.query(Quiz).filter(Quiz.id == quiz_id, Quiz.subject == CODING_SUBJECT).first()
     if not quiz:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

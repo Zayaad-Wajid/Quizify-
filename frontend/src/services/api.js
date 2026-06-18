@@ -92,6 +92,11 @@ export const leaderboardAPI = {
   getUserProgress: (userId) => api.get(`/leaderboard/user/${userId}`),
 };
 
+// Dashboard API
+export const dashboardAPI = {
+  getSummary: () => api.get("/dashboard/summary"),
+};
+
 // AI API
 export const aiAPI = {
   chat: (data) => api.post("/ai/chat", data),

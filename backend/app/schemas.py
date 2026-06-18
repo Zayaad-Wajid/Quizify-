@@ -198,6 +198,17 @@ class ChatResponse(BaseModel):
     response: str
 
 
+# ========== Dashboard Schemas ==========
+class DashboardSummaryResponse(BaseModel):
+    quizzes_available: int
+    saved_notes: int
+    quizzes_taken: int
+    average_score: float
+    recent_quizzes: List[QuizListResponse]
+    recent_notes: List[NoteResponse]
+    recent_progress: List[ProgressResponse]
+
+
 # ========== Generic Response ==========
 class MessageResponse(BaseModel):
     message: str

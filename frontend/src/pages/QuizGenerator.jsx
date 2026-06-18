@@ -15,7 +15,7 @@ import { quizAPI } from "../services/api";
 
 export default function QuizGenerator() {
   const [formData, setFormData] = useState({
-    subject: "",
+    subject: "Coding",
     topic: "",
     difficulty: "medium",
     question_count: 5,
@@ -33,13 +33,13 @@ export default function QuizGenerator() {
     return difficultyMap[formData.difficulty] || "Applied";
   }, [formData.difficulty]);
 
-  const quickSubjects = [
+  const quickTopics = [
     "Python",
     "JavaScript",
-    "Mathematics",
-    "Physics",
-    "Biology",
-    "World History",
+    "React",
+    "Node.js",
+    "Data Structures",
+    "Algorithms",
   ];
 
   const handleChange = (e) => {
@@ -50,8 +50,8 @@ export default function QuizGenerator() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.subject.trim()) {
-      toast.error("Please enter a subject");
+    if (!formData.topic.trim()) {
+      toast.error("Please enter a coding topic");
       return;
     }
 
@@ -125,17 +125,17 @@ export default function QuizGenerator() {
 
           <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <p className="text-sm font-semibold text-slate-800 mb-3">
-              Quick start subjects
+              Quick start topics
             </p>
             <div className="flex flex-wrap gap-2">
-              {quickSubjects.map((subject) => (
+              {quickTopics.map((topic) => (
                 <button
-                  key={subject}
+                  key={topic}
                   type="button"
-                  onClick={() => setFormData((prev) => ({ ...prev, subject }))}
+                  onClick={() => setFormData((prev) => ({ ...prev, topic }))}
                   className="px-3 py-1.5 rounded-full border border-slate-300 text-slate-700 text-sm hover:border-primary-500 hover:text-primary-700 hover:bg-primary-50 transition-colors"
                 >
-                  {subject}
+                  {topic}
                 </button>
               ))}
             </div>
@@ -163,10 +163,8 @@ export default function QuizGenerator() {
                   id="subject"
                   name="subject"
                   value={formData.subject}
-                  onChange={handleChange}
                   className="input"
-                  placeholder="e.g., Calculus, Biology, Data Structures"
-                  required
+                  readOnly
                 />
               </div>
 
@@ -182,7 +180,7 @@ export default function QuizGenerator() {
                   value={formData.topic}
                   onChange={handleChange}
                   className="input"
-                  placeholder="e.g., Derivatives, Thermodynamics, Async/Await"
+                  placeholder="e.g., Async/Await, Binary Trees, React Hooks"
                 />
               </div>
 
@@ -312,7 +310,7 @@ export default function QuizGenerator() {
               </li>
               <li className="flex items-start gap-2">
                 <Sparkles className="w-4 h-4 mt-0.5 text-primary-600" />
-                Use mixed mode to diversify preparation and reduce memorization.
+                Use mixed mode for broader coding practice across concepts.
               </li>
             </ul>
           </div>

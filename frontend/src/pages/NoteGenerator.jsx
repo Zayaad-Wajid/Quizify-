@@ -10,7 +10,7 @@ export default function NoteGenerator() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    subject: "",
+    subject: "Coding",
     topic: "",
     detail_level: "medium",
   });
@@ -30,8 +30,8 @@ export default function NoteGenerator() {
       return;
     }
 
-    if (!formData.subject.trim() || !formData.topic.trim()) {
-      toast.error("Please enter both subject and topic");
+    if (!formData.topic.trim()) {
+      toast.error("Please enter a coding topic");
       return;
     }
 
@@ -100,7 +100,7 @@ export default function NoteGenerator() {
               Note Configuration
             </h2>
             <p className="text-slate-400 text-sm mt-2 mb-6">
-              Choose a subject, define the topic, and select your desired depth.
+              Choose a coding topic and select your desired depth.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-5">
@@ -114,10 +114,8 @@ export default function NoteGenerator() {
                   id="subject"
                   name="subject"
                   value={formData.subject}
-                  onChange={handleChange}
                   className="input"
-                  placeholder="e.g., Physics, Computer Science"
-                  required
+                  readOnly
                 />
               </div>
 
@@ -133,7 +131,7 @@ export default function NoteGenerator() {
                   value={formData.topic}
                   onChange={handleChange}
                   className="input"
-                  placeholder="e.g., Newton's Laws, React Hooks"
+                  placeholder="e.g., React Hooks, Recursion, SQL Joins"
                   required
                 />
               </div>

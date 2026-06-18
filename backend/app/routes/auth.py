@@ -15,7 +15,7 @@ from app.auth import (
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 
-@router.post("/signup", response_model=Token, status_code=status.HTTP_201_CREATED)
+@router.post("/signup", response_model=MessageResponse, status_code=status.HTTP_201_CREATED)
 async def signup(user_data: UserCreate, db: Session = Depends(get_db)):
     # Validate passwords match
     if user_data.password != user_data.confirm_password:
@@ -45,11 +45,7 @@ async def signup(user_data: UserCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
     
-    # Generate tokens
-    access_token = create_access_token(data={"sub": str(new_user.id)})
-    refresh_token = create_refresh_token(data={"sub": str(new_user.id)})
-    
-    return Token(access_token=access_token, refresh_token=refresh_token)
+    return MessageResponse(message="Account created successfully. Please log in.")
 
 
 @router.post("/login", response_model=Token)

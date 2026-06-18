@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.database import engine, Base
-from app.routes import auth, quizzes, notes, leaderboard, ai
+from app.routes import auth, quizzes, notes, leaderboard, ai, dashboard
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -31,6 +31,7 @@ app.include_router(quizzes.router, prefix="/api")
 app.include_router(notes.router, prefix="/api")
 app.include_router(leaderboard.router, prefix="/api")
 app.include_router(ai.router, prefix="/api")
+app.include_router(dashboard.router, prefix="/api")
 
 
 @app.get("/")

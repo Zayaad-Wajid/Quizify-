@@ -1,253 +1,403 @@
-# Quizify - Interactive Learning Platform
+# Quizify
 
-Quizify is a modern web-based learning platform that offers interactive quizzes, notes generation, and AI-powered learning assistance. The platform is designed to help students and learners master various subjects through engaging content and personalized learning experiences.
+Quizify is a coding-focused learning platform built with FastAPI and React. It generates coding quizzes, produces coding study notes, tracks quiz performance, and provides an AI assistant for programming-related study help.
+
+## Scope
+
+Quizify is now coding-only.
+
+- Coding quizzes only
+- Coding notes only
+- Coding-focused leaderboard
+- Coding-oriented AI assistant
+
+The app no longer supports mathematics, physics, science, or other non-coding domains in the active product flow.
 
 ## Features
 
-### 1. User Authentication
+### Authentication
 
-- Secure signup and login system with JWT tokens
-- Automatic token refresh
-- Protected routes for authenticated users
+- Email/password signup
+- Login with JWT access and refresh tokens
+- Protected routes for authenticated features
+- Signup and login are separate flows
 
-### 2. Interactive Quizzes
+### Coding Quizzes
 
-- AI-powered quiz generation on any topic
-- Multiple subject categories:
-  - Coding (Python, JavaScript, Java)
-  - Mathematics (Calculus, Linear Algebra, Statistics)
-  - Physics (Mechanics, Electromagnetism, Thermodynamics)
-- Real-time scoring
-- Progress tracking
-- Leaderboard system
+- AI-generated quizzes for coding topics
+- Difficulty levels: easy, medium, hard
+- Multiple question-count options
+- Quiz attempts saved for authenticated users
+- Leaderboard based on coding quiz performance
 
-### 3. Notes
+### Coding Notes
 
-- AI-powered notes generation
-- Subject-specific formatting
-- Personal notes library
+- AI-generated coding study notes in Markdown
+- Saved personal notes library
+- Favorite notes support
+- Search and filter within saved notes
 
-### 4. AI Assistant
+### Dashboard
 
-- Interactive chatbot for learning assistance
-- Context-aware responses
-- Available across the platform
-- Powered by Gemini AI service
+- Dedicated authenticated dashboard at `/dashboard`
+- Real backend aggregate counts
+- Recent quizzes
+- Recent notes
+- Recent coding quiz activity
 
-### 5. User Interface
+### AI Assistant
 
-- Modern, responsive design with Tailwind CSS
-- Toast notifications system
-- Smooth animations and transitions
-- Clean, minimalist UI
+- Coding-focused study assistant
+- Programming concept explanations
+- Study help for coding topics
+- Debugging and interview-prep style guidance
 
-## Technology Stack
+## Tech Stack
 
 ### Frontend
 
 - React 18
-- Vite (build tool)
+- Vite
 - Tailwind CSS
 - React Router DOM
-- Zustand (state management)
-- Axios (HTTP client)
+- Zustand
+- Axios
 - React Hot Toast
 - React Markdown
-- Lucide React (icons)
+- Lucide React
 
 ### Backend
 
-- FastAPI (Python)
-- SQLAlchemy ORM
-- SQLite Database
-- JWT Authentication (python-jose)
-- Passlib (password hashing)
-- Pydantic (data validation)
-- HTTPX (async HTTP client)
+- FastAPI
+- SQLAlchemy
+- SQLite
+- Pydantic
+- python-jose
+- Passlib
+- HTTPX
 
-### AI Integration
+### AI
 
-- Google Gemini AI API
-- Quiz generation
-- Notes generation
-- Interactive chatbot
-
-## Installation
-
-### Option 1: Docker (Recommended)
-
-1. Prerequisites:
-
-   ```
-   - Docker Desktop
-   - Git
-   ```
-
-2. Setup:
-
-   ```bash
-   # Clone the repository
-   git clone [repository-url] Quizify
-   cd Quizify
-
-   # Create .env file from example
-   cp .env.example .env
-
-   # Edit .env and add your GEMINI_API_KEY
-
-   # Start with Docker Compose
-   docker-compose up --build
-   ```
-
-3. Access the application:
-   - Frontend: http://localhost:5173
-   - Backend API: http://localhost:8000
-   - API Docs: http://localhost:8000/docs
-
-### Option 2: Manual Setup
-
-#### Backend Setup
-
-1. Prerequisites:
-
-   ```
-   - Python 3.11+
-   - pip
-   ```
-
-2. Setup:
-
-   ```bash
-   cd backend
-
-   # Create virtual environment
-   python -m venv venv
-
-   # Activate virtual environment
-   # Windows:
-   venv\Scripts\activate
-   # Linux/Mac:
-   source venv/bin/activate
-
-   # Install dependencies
-   pip install -r requirements.txt
-
-   # Set environment variables (or create .env file)
-   export DATABASE_URL=sqlite:///./quizify.db
-   export SECRET_KEY=your-secret-key
-   export GEMINI_API_KEY=your-gemini-api-key
-
-   # Run the server
-   uvicorn app.main:app --reload
-   ```
-
-#### Frontend Setup
-
-1. Prerequisites:
-
-   ```
-   - Node.js 18+
-   - npm
-   ```
-
-2. Setup:
-
-   ```bash
-   cd frontend
-
-   # Install dependencies
-   npm install
-
-   # Set environment variables (or create .env file)
-   # VITE_API_URL=http://localhost:8000
-
-   # Run the development server
-   npm run dev
-   ```
-
-3. Access the application:
-   - Frontend: http://localhost:5173
-   - Backend API: http://localhost:8000
-   - API Docs: http://localhost:8000/docs
+- Google Gemini API
 
 ## Project Structure
 
+```text
+Quizify/
+├── backend/
+│   ├── api/
+│   │   └── index.py
+│   ├── app/
+│   │   ├── routes/
+│   │   │   ├── ai.py
+│   │   │   ├── auth.py
+│   │   │   ├── dashboard.py
+│   │   │   ├── leaderboard.py
+│   │   │   ├── notes.py
+│   │   │   └── quizzes.py
+│   │   ├── services/
+│   │   │   └── gemini.py
+│   │   ├── auth.py
+│   │   ├── config.py
+│   │   ├── database.py
+│   │   ├── main.py
+│   │   ├── models.py
+│   │   └── schemas.py
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── vercel.json
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   │   └── layout/
+│   │   ├── pages/
+│   │   │   ├── Assistant.jsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Home.jsx
+│   │   │   ├── Leaderboard.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── NoteGenerator.jsx
+│   │   │   ├── Notes.jsx
+│   │   │   ├── QuizGenerator.jsx
+│   │   │   ├── Quizzes.jsx
+│   │   │   ├── Signup.jsx
+│   │   │   └── TakeQuiz.jsx
+│   │   ├── services/
+│   │   │   └── api.js
+│   │   ├── store/
+│   │   │   └── authStore.js
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
+│   ├── Dockerfile
+│   ├── package.json
+│   ├── vercel.json
+│   └── vite.config.js
+├── docker-compose.yml
+└── README.md
 ```
-Quizify Web Project/
-├── auth/                  # Authentication related PHP files
-│   ├── login.php
-│   ├── signup.php
-│   ├── logout.php
-│   └── check_auth.php
-├── config/               # Configuration files
-│   └── database.php
-├── js/                  # JavaScript files
-│   ├── main.js
-│   ├── auth.js
-│   ├── quiz-generator.js
-│   └── notes-generator.js
-├── styles/             # CSS stylesheets
-│   ├── main.css
-│   ├── home.css
-│   └── auth.css
-├── pages/             # HTML pages
-│   ├── login.html
-│   ├── signup.html
-│   ├── quizzes.html
-│   └── notes.html
-└── index.html        # Main entry point
+
+## Local Setup
+
+### Prerequisites
+
+- Python 3.11+
+- Node.js 18+
+- npm
+- Gemini API key
+
+### Backend
+
+```bash
+cd backend
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
 ```
 
-## Usage
+Create a `.env` file in `backend/` or provide environment variables:
 
-1. Home Page:
-   - View available quiz categories
-   - Access learning resources
-   - Sign up or log in
+```env
+DATABASE_URL=sqlite:///./quizify.db
+SECRET_KEY=your-secret-key
+GEMINI_API_KEY=your-gemini-api-key
+DEBUG=true
+```
 
-2. Authentication:
-   - Create a new account or log in
-   - Use remember me feature for convenience
-   - Secure logout functionality
+Run the backend:
 
-3. Quizzes:
-   - Select a subject category
-   - Take interactive quizzes
-   - View scores and progress
-   - Compare rankings on leaderboard
+```bash
+uvicorn app.main:app --reload
+```
 
-4. Notes Generator:
-   - Create AI-generated study notes
-   - Customize note format
-   - Save and organize notes
-   - Export in various formats
+Backend runs at `http://localhost:8000`
 
-## Security Considerations
+### Frontend
 
-1. Authentication:
-   - Passwords are securely hashed
-   - Session tokens are properly managed
-   - Remember-me tokens are securely stored
+```bash
+cd frontend
+npm install
+```
 
-2. Data Protection:
-   - Input sanitization
-   - Prepared SQL statements
-   - XSS prevention
-   - CSRF protection
+Optional frontend env:
 
-3. Cookie Security:
-   - HTTP-only flags
-   - Secure cookie settings
-   - SameSite policy
+```env
+VITE_API_URL=http://localhost:8000/api
+```
 
-## Contributing
+Run the frontend:
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+```bash
+npm run dev
+```
 
+Frontend runs at `http://localhost:5173`
 
+## Docker
 
+From the project root:
 
+```bash
+docker-compose up --build
+```
+
+This starts:
+
+- frontend app
+- backend API
+- PostgreSQL database
+- Adminer database UI
+
+## Database Setup
+
+Quizify now includes a complete project database stack based on PostgreSQL.
+
+### Included Services
+
+- PostgreSQL: primary application database
+- Adminer: browser-based database management UI for manual CRUD
+
+### Default Local Database Credentials
+
+These come from `.env.example` and can be changed before startup:
+
+```env
+POSTGRES_DB=quizify
+POSTGRES_USER=quizify
+POSTGRES_PASSWORD=quizify_password
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+DATABASE_URL=postgresql://quizify:quizify_password@localhost:5432/quizify
+```
+
+### Start Only the Database Tools
+
+```bash
+docker-compose up -d postgres adminer
+```
+
+### Access the Database
+
+#### Option 1: Adminer
+
+Open:
+
+`http://localhost:8080`
+
+Use:
+
+- System: `PostgreSQL`
+- Server: `postgres` when connecting from inside Docker Adminer
+- Username: `quizify`
+- Password: `quizify_password`
+- Database: `quizify`
+
+#### Option 2: psql
+
+```bash
+psql postgresql://quizify:quizify_password@localhost:5432/quizify
+```
+
+#### Option 3: Desktop SQL Client
+
+You can connect with DBeaver, pgAdmin, TablePlus, or any PostgreSQL client using:
+
+- Host: `localhost`
+- Port: `5432`
+- Database: `quizify`
+- Username: `quizify`
+- Password: `quizify_password`
+
+### Manual CRUD Examples
+
+List tables:
+
+```sql
+\dt
+```
+
+Read users:
+
+```sql
+SELECT id, first_name, last_name, email, created_at
+FROM users
+ORDER BY id DESC;
+```
+
+Insert a note manually:
+
+```sql
+INSERT INTO user_notes (user_id, title, subject, topic, content, category, is_favorite)
+VALUES (1, 'Coding: SQL Basics', 'Coding', 'SQL Basics', 'Manual note content', 'coding', false);
+```
+
+Update a quiz title:
+
+```sql
+UPDATE quizzes
+SET title = 'Coding - Arrays (Medium)'
+WHERE id = 1;
+```
+
+Delete a note:
+
+```sql
+DELETE FROM user_notes
+WHERE id = 1;
+```
+
+### Schema Creation
+
+The backend creates tables automatically on startup through SQLAlchemy metadata initialization in `backend/app/main.py`.
+
+That means:
+
+- start Postgres
+- start backend
+- tables will be created automatically if they do not exist
+
+### Database Compatibility
+
+- Docker-first setup uses PostgreSQL
+- backend still supports SQLite if you point `DATABASE_URL` to a SQLite file
+- engine config now handles SQLite and PostgreSQL correctly
+
+## Main Routes
+
+### Frontend Routes
+
+- `/`
+- `/signup`
+- `/login`
+- `/dashboard`
+- `/quizzes`
+- `/quizzes/generate`
+- `/quizzes/:id`
+- `/notes`
+- `/notes/generate`
+- `/leaderboard`
+- `/assistant`
+
+### Backend API Routes
+
+#### Auth
+
+- `POST /api/auth/signup`
+- `POST /api/auth/login`
+- `POST /api/auth/refresh`
+- `GET /api/auth/me`
+- `POST /api/auth/logout`
+
+#### Dashboard
+
+- `GET /api/dashboard/summary`
+
+#### Quizzes
+
+- `GET /api/quizzes`
+- `GET /api/quizzes/{quiz_id}`
+- `POST /api/quizzes/generate`
+- `POST /api/quizzes/{quiz_id}/submit`
+- `DELETE /api/quizzes/{quiz_id}`
+
+#### Notes
+
+- `GET /api/notes`
+- `GET /api/notes/{note_id}`
+- `POST /api/notes`
+- `POST /api/notes/generate`
+- `PUT /api/notes/{note_id}`
+- `DELETE /api/notes/{note_id}`
+- `POST /api/notes/{note_id}/favorite`
+
+#### Leaderboard
+
+- `GET /api/leaderboard`
+- `GET /api/leaderboard/subjects`
+- `GET /api/leaderboard/user/{user_id}`
+
+#### AI
+
+- `POST /api/ai/chat`
+
+## Current Product Behavior
+
+- Signup creates an account but does not log the user in
+- Login redirects users to the dashboard
+- Dashboard metrics come from backend aggregates
+- Quiz and notes generation are restricted to coding content
+- Non-coding subject flows are removed from the UI
+
+## Deployment
+
+The repository includes:
+
+- `docker-compose.yml` for local containerized development
+- `backend/vercel.json` for backend deployment
+- `frontend/vercel.json` for frontend deployment
+
+## Notes
+
+- Existing non-coding data may still exist in the database, but the active app flow now surfaces coding content only.
+- The backend uses SQLite by default for local development.

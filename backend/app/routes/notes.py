@@ -11,6 +11,7 @@ from app.services.gemini import GeminiService
 
 router = APIRouter(prefix="/notes", tags=["Notes"])
 gemini_service = GeminiService()
+CODING_SUBJECT = "Coding"
 
 
 @router.get("/", response_model=List[NoteResponse])
@@ -22,7 +23,10 @@ async def get_notes(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    query = db.query(UserNote).filter(UserNote.user_id == current_user.id)
+    query = db.query(UserNote).filter(
+        UserNote.user_id == current_user.id,
+        UserNote.subject == CODING_SUBJECT,
+    )
     
     if category and category != "all":
         query = query.filter(UserNote.category == category)
@@ -47,7 +51,8 @@ async def get_note(
 ):
     note = db.query(UserNote).filter(
         UserNote.id == note_id,
-        UserNote.user_id == current_user.id
+        UserNote.user_id == current_user.id,
+        UserNote.subject == CODING_SUBJECT,
     ).first()
     
     if not note:
@@ -68,10 +73,10 @@ async def create_note(
     note = UserNote(
         user_id=current_user.id,
         title=note_data.title,
-        subject=note_data.subject,
+        subject=CODING_SUBJECT,
         topic=note_data.topic,
         content=note_data.content,
-        category=note_data.category
+        category="coding",
     )
     
     db.add(note)
@@ -88,9 +93,16 @@ async def generate_notes(
     current_user: User = Depends(get_current_user)
 ):
     try:
+        requested_subject = (request.subject or "").strip().lower()
+        if requested_subject and requested_subject != "coding":
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Quizify only supports coding notes.",
+            )
+
         # Generate notes using Gemini
         content = await gemini_service.generate_notes(
-            subject=request.subject,
+            subject=CODING_SUBJECT,
             topic=request.topic,
             detail_level=request.detail_level
         )
@@ -98,11 +110,11 @@ async def generate_notes(
         # Create note in database
         note = UserNote(
             user_id=current_user.id,
-            title=f"{request.subject}: {request.topic}",
-            subject=request.subject,
+            title=f"{CODING_SUBJECT}: {request.topic}",
+            subject=CODING_SUBJECT,
             topic=request.topic,
             content=content,
-            category=request.subject.lower().replace(" ", "-")
+            category="coding"
         )
         
         db.add(note)
@@ -127,7 +139,8 @@ async def update_note(
 ):
     note = db.query(UserNote).filter(
         UserNote.id == note_id,
-        UserNote.user_id == current_user.id
+        UserNote.user_id == current_user.id,
+        UserNote.subject == CODING_SUBJECT,
     ).first()
     
     if not note:
@@ -138,6 +151,9 @@ async def update_note(
     
     # Update fields
     update_data = note_data.model_dump(exclude_unset=True)
+    update_data.pop("subject", None)
+    if "category" in update_data:
+        update_data["category"] = "coding"
     for field, value in update_data.items():
         setattr(note, field, value)
     
@@ -155,7 +171,8 @@ async def delete_note(
 ):
     note = db.query(UserNote).filter(
         UserNote.id == note_id,
-        UserNote.user_id == current_user.id
+        UserNote.user_id == current_user.id,
+        UserNote.subject == CODING_SUBJECT,
     ).first()
     
     if not note:
@@ -178,7 +195,8 @@ async def toggle_favorite(
 ):
     note = db.query(UserNote).filter(
         UserNote.id == note_id,
-        UserNote.user_id == current_user.id
+        UserNote.user_id == current_user.id,
+        UserNote.subject == CODING_SUBJECT,
     ).first()
     
     if not note:

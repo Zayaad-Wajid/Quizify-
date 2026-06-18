@@ -7,6 +7,7 @@ from app.models import User, UserProgress, Quiz
 from app.schemas import LeaderboardEntry, ProgressResponse
 
 router = APIRouter(prefix="/leaderboard", tags=["Leaderboard"])
+CODING_SUBJECT = "Coding"
 
 
 @router.get("/", response_model=List[LeaderboardEntry])
@@ -25,8 +26,7 @@ async def get_leaderboard(
     ).join(Quiz, UserProgress.quiz_id == Quiz.id)
     
     # Filter by subject if provided
-    if subject and subject != "all":
-        query = query.filter(Quiz.subject.ilike(f"%{subject}%"))
+    query = query.filter(Quiz.subject == CODING_SUBJECT)
     
     # Filter by time period
     if time_period == "this-week":
@@ -64,8 +64,7 @@ async def get_leaderboard(
 @router.get("/subjects", response_model=List[str])
 async def get_subjects(db: Session = Depends(get_db)):
     """Get list of all quiz subjects for filtering"""
-    subjects = db.query(Quiz.subject).distinct().all()
-    return [s[0] for s in subjects if s[0]]
+    return [CODING_SUBJECT]
 
 
 @router.get("/user/{user_id}", response_model=List[ProgressResponse])
@@ -75,7 +74,9 @@ async def get_user_progress(
     db: Session = Depends(get_db)
 ):
     progress_items = db.query(UserProgress)\
+        .join(Quiz, UserProgress.quiz_id == Quiz.id)\
         .filter(UserProgress.user_id == user_id)\
+        .filter(Quiz.subject == CODING_SUBJECT)\
         .order_by(UserProgress.completed_at.desc())\
         .limit(limit)\
         .all()

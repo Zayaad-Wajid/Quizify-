@@ -60,28 +60,28 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Subjects */}
+          {/* Focus Areas */}
           <div>
-            <h4 className="text-slate-100 font-semibold mb-4">Subjects</h4>
+            <h4 className="text-slate-100 font-semibold mb-4">Focus Areas</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <span className="hover:text-cyan-300 transition-colors cursor-pointer">
-                  Coding
+                  Python
                 </span>
               </li>
               <li>
                 <span className="hover:text-cyan-300 transition-colors cursor-pointer">
-                  Mathematics
+                  JavaScript
                 </span>
               </li>
               <li>
                 <span className="hover:text-cyan-300 transition-colors cursor-pointer">
-                  Physics
+                  Data Structures
                 </span>
               </li>
               <li>
                 <span className="hover:text-cyan-300 transition-colors cursor-pointer">
-                  Science
+                  Algorithms
                 </span>
               </li>
             </ul>

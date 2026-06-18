@@ -11,26 +11,14 @@ const medalColors = {
 
 export default function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([]);
-  const [subjects, setSubjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState({
-    subject: "",
     time_period: "all-time",
   });
 
   useEffect(() => {
-    fetchSubjects();
     fetchLeaderboard();
   }, [filters]);
-
-  const fetchSubjects = async () => {
-    try {
-      const response = await leaderboardAPI.getSubjects();
-      setSubjects(response.data);
-    } catch {
-      // no-op
-    }
-  };
 
   const fetchLeaderboard = async () => {
     try {
@@ -60,31 +48,13 @@ export default function Leaderboard() {
             Leaderboard
           </h1>
           <p className="text-slate-300 mt-2">
-            See how learners rank across quizzes and subjects.
+            See how learners rank across coding quizzes.
           </p>
         </div>
       </section>
 
       <section className="card mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="label">Subject</label>
-            <select
-              value={filters.subject}
-              onChange={(e) =>
-                setFilters((prev) => ({ ...prev, subject: e.target.value }))
-              }
-              className="input"
-            >
-              <option value="">All Subjects</option>
-              {subjects.map((subject) => (
-                <option key={subject} value={subject}>
-                  {subject}
-                </option>
-              ))}
-            </select>
-          </div>
-
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
           <div>
             <label className="label">Time Period</label>
             <select

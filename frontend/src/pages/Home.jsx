@@ -16,7 +16,7 @@ const features = [
     icon: BookOpen,
     title: "Interactive Quizzes",
     description:
-      "Challenge yourself with AI-generated quizzes across multiple subjects and difficulty levels.",
+      "Challenge yourself with AI-generated coding quizzes across languages, concepts, and difficulty levels.",
   },
   {
     icon: FileText,
@@ -38,20 +38,20 @@ const features = [
   },
 ];
 
-const subjects = [
+const codingTracks = [
   {
-    name: "Coding",
-    topics: ["Python", "JavaScript", "Java"],
+    name: "Python",
+    topics: ["Functions", "OOP", "Data Structures"],
     color: "from-cyan-400 to-blue-600",
   },
   {
-    name: "Mathematics",
-    topics: ["Calculus", "Algebra", "Statistics"],
-    color: "from-emerald-400 to-teal-600",
+    name: "JavaScript",
+    topics: ["Closures", "Async/Await", "DOM"],
+    color: "from-amber-400 to-orange-600",
   },
   {
-    name: "Physics",
-    topics: ["Mechanics", "Electromagnetism", "Thermodynamics"],
+    name: "Data Structures",
+    topics: ["Arrays", "Trees", "Graphs"],
     color: "from-fuchsia-400 to-violet-600",
   },
 ];
@@ -82,9 +82,9 @@ export default function Home() {
               </h1>
 
               <p className="mt-5 text-lg text-slate-300 max-w-2xl">
-                A professional interactive learning platform for quizzes, notes,
-                and AI-assisted study sessions across coding, mathematics,
-                physics, and more.
+                A professional coding learning platform for quizzes, notes, and
+                AI-assisted study sessions across programming languages,
+                concepts, and interview-style topics.
               </p>
 
               <div className="mt-8 flex flex-col sm:flex-row gap-3">
@@ -147,7 +147,7 @@ export default function Home() {
               Built for focused, modern learning
             </h2>
             <p className="text-slate-400 max-w-2xl mx-auto">
-              Every part of Quizify is designed to make study sessions
+              Every part of Quizify is designed to make coding study sessions
               structured, engaging, and measurable.
             </p>
           </div>
@@ -172,15 +172,15 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-slate-100 mb-3">
-              Explore Subjects
+              Explore Coding Tracks
             </h2>
             <p className="text-slate-400">
-              Choose a domain and start with professional practice quizzes.
+              Choose a coding area and start with focused practice quizzes.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {subjects.map(({ name, topics, color }) => (
+            {codingTracks.map(({ name, topics, color }) => (
               <div key={name} className="card">
                 <div
                   className={`w-12 h-12 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center mb-4 shadow-lg`}
@@ -201,10 +201,10 @@ export default function Home() {
                   ))}
                 </div>
                 <Link
-                  to={`/quizzes?subject=${name.toLowerCase()}`}
+                  to="/quizzes"
                   className="inline-flex items-center mt-5 text-cyan-300 hover:text-cyan-200 font-medium"
                 >
-                  Explore {name}
+                  Practice {name}
                   <ArrowRight className="w-4 h-4 ml-1" />
                 </Link>
               </div>
@@ -249,7 +249,7 @@ export default function Home() {
             </h2>
             <p className="text-slate-400 mb-7">
               Join Quizify and build stronger study habits with AI-guided
-              quizzes, notes, and feedback.
+              coding quizzes, notes, and feedback.
             </p>
             <Link to="/signup" className="btn btn-primary px-8 py-3 text-lg">
               Get Started Free

@@ -9,7 +9,7 @@ export default function Assistant() {
     {
       role: "assistant",
       content:
-        "Hi! I'm Quizify Assistant. I can help you with learning questions, explain concepts, and provide study tips. What would you like to learn about today?",
+        "Hi! I'm Quizify Assistant. I can help with programming concepts, debugging ideas, coding quizzes, and study tips. What coding topic would you like to work on today?",
     },
   ]);
   const [input, setInput] = useState("");
@@ -70,10 +70,10 @@ export default function Assistant() {
   };
 
   const suggestedQuestions = [
-    "Explain Newton's laws of motion",
     "How do I learn Python effectively?",
     "What's the difference between let and const in JavaScript?",
-    "Give me tips for studying calculus",
+    "Explain recursion with a simple example",
+    "How should I prepare for data structures interviews?",
   ];
 
   return (

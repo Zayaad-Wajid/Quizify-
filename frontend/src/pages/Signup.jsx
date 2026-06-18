@@ -59,8 +59,8 @@ export default function Signup() {
 
     try {
       await signup(payload);
-      toast.success("Account created successfully!");
-      navigate("/");
+      toast.success("Account created successfully. Please log in.");
+      navigate("/login");
     } catch (error) {
       const message =
         error.response?.data?.detail ||

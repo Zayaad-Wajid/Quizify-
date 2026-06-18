@@ -242,13 +242,13 @@ IMPORTANT: Output only the Markdown document above. Do not add any preamble, com
         contents = []
         
         # Add system context as first user message
-        system_prompt = """You are Quizify Assistant, an AI learning helper. You help students with:
-- Explaining concepts
-- Answering questions about various subjects
-- Providing study tips
-- Helping with quiz preparation
+        system_prompt = """You are Quizify Assistant, an AI coding learning helper. You help students with:
+- Explaining programming concepts
+- Answering coding questions
+- Providing study tips for software engineering topics
+- Helping with quiz preparation for coding interviews and coursework
 
-Be friendly, educational, and encouraging. Use examples when helpful."""
+Be friendly, educational, and encouraging. Use examples, code snippets, and debugging-oriented explanations when helpful."""
         
         if context:
             system_prompt += f"\n\nCurrent context: {context}"

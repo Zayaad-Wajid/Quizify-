@@ -9,9 +9,6 @@ import { useAuthStore } from "../store/authStore";
 const categories = [
   { value: "all", label: "All Notes" },
   { value: "coding", label: "Coding" },
-  { value: "mathematics", label: "Mathematics" },
-  { value: "physics", label: "Physics" },
-  { value: "general", label: "General" },
 ];
 
 export default function Notes() {
@@ -73,7 +70,7 @@ export default function Notes() {
           Sign in to access Notes
         </h1>
         <p className="text-slate-400 mb-6">
-          Create and manage your personal study notes
+          Create and manage your personal coding study notes
         </p>
         <Link to="/login" className="btn btn-primary">
           Sign In
@@ -96,7 +93,7 @@ export default function Notes() {
               My Notes
             </h1>
             <p className="text-slate-300 mt-2">
-              Organize and review AI-generated study materials.
+              Organize and review AI-generated coding study materials.
             </p>
           </div>
           <Link to="/notes/generate" className="btn btn-secondary">

@@ -8,6 +8,7 @@ import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Dashboard from "./pages/Dashboard";
 import Quizzes from "./pages/Quizzes";
 import QuizGenerator from "./pages/QuizGenerator";
 import TakeQuiz from "./pages/TakeQuiz";
@@ -48,6 +49,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/quizzes" element={<Quizzes />} />
           <Route path="/quizzes/generate" element={<QuizGenerator />} />
           <Route path="/quizzes/:id" element={<TakeQuiz />} />
