@@ -1,72 +1,59 @@
 # Quizify
 
-Quizify is a coding-focused learning platform built with FastAPI and React. It helps users generate coding quizzes, create structured study notes, track quiz performance, and use an AI assistant for programming-related learning.
+Quizify is a coding-focused learning platform built with FastAPI and React. It generates coding quizzes, creates structured study notes, tracks user progress, and includes an AI assistant for programming-related learning.
 
-## Features
+## Stack
 
-- JWT-based authentication with separate signup and login flows
-- AI-generated coding quizzes with difficulty and topic controls
-- AI-generated coding notes saved to a personal library
-- Authenticated dashboard with recent activity and summary metrics
-- Coding-only leaderboard based on quiz performance
-- Coding-oriented AI assistant
-
-## Tech Stack
-
-### Frontend
-
-- React
-- Vite
-- Tailwind CSS
-- React Router
-- Zustand
-- Axios
-
-### Backend
-
-- FastAPI
-- SQLAlchemy
-- PostgreSQL / SQLite
-- Pydantic
-- python-jose
-- Passlib
-
-### AI
-
-- Google Gemini API
-
-## Architecture
-
-```text
-Quizify/
-├── backend/
-│   ├── api/
-│   ├── app/
-│   │   ├── routes/
-│   │   ├── services/
-│   │   ├── auth.py
-│   │   ├── config.py
-│   │   ├── database.py
-│   │   ├── main.py
-│   │   ├── models.py
-│   │   └── schemas.py
-│   └── requirements.txt
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── services/
-│   │   ├── store/
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   └── package.json
-├── docker-compose.yml
-└── README.md
-```
+- Frontend: React, Vite, Tailwind CSS
+- Backend: FastAPI, SQLAlchemy, Pydantic
+- Auth: JWT
+- Database: PostgreSQL or SQLite
+- AI: Google Gemini API
 
 ## Product Scope
 
-Quizify is currently scoped to coding topics only. Non-coding subjects are not part of the active application flow.
+Quizify is scoped to coding topics only.
+
+Core flows:
+
+- signup and login
+- coding quiz generation and quiz attempts
+- coding note generation and saved notes
+- authenticated dashboard and leaderboard
+- coding-focused AI assistant
+
+## Project Structure
+
+```text
+Quizify/
+|-- backend/
+|   |-- app/
+|   |   |-- routes/
+|   |   |-- services/
+|   |   |-- auth.py
+|   |   |-- config.py
+|   |   |-- database.py
+|   |   |-- main.py
+|   |   |-- models.py
+|   |   `-- schemas.py
+|   |-- Dockerfile
+|   |-- README.md
+|   `-- requirements.txt
+|-- frontend/
+|   |-- public/
+|   |-- src/
+|   |   |-- components/
+|   |   |-- pages/
+|   |   |-- services/
+|   |   |-- store/
+|   |   |-- App.jsx
+|   |   `-- main.jsx
+|   |-- package.json
+|   |-- vercel.json
+|   `-- vite.config.js
+|-- docker-compose.yml
+`-- README.md
+```
 
 ## Local Development
 
@@ -74,8 +61,7 @@ Quizify is currently scoped to coding topics only. Non-coding subjects are not p
 
 - Python 3.11+
 - Node.js 18+
-- Docker Desktop (optional, recommended for PostgreSQL)
-- Gemini API key
+- Docker Desktop for the local PostgreSQL stack
 
 ### Backend
 
@@ -87,8 +73,6 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-The backend runs at `http://localhost:8000`.
-
 ### Frontend
 
 ```bash
@@ -97,57 +81,79 @@ npm install
 npm run dev
 ```
 
-The frontend runs at `http://localhost:5173`.
+### Environment Variables
 
-## Environment Variables
-
-Backend configuration is driven by environment variables.
-
-Core values:
+Core backend variables:
 
 ```env
-DATABASE_URL=postgresql://quizify:quizify_password@localhost:5432/quizify
+DATABASE_URL=postgresql://username:password@host:5432/database
 SECRET_KEY=your-secret-key
 GEMINI_API_KEY=your-gemini-api-key
 ```
 
-For frontend development:
+Frontend:
 
 ```env
 VITE_API_URL=http://localhost:8000/api
 ```
 
-## Database
+## Deployment
 
-The project supports:
+### Frontend: Vercel
 
-- PostgreSQL for the main development/deployment database
-- SQLite as a lightweight local fallback
+The frontend is configured for Vercel deployment as a Vite SPA.
 
-`docker-compose.yml` includes:
+Set:
 
-- `postgres` for the application database
-- `adminer` for browser-based database access
+```env
+VITE_API_URL=https://your-huggingface-space.hf.space/api
+```
 
-Start database services:
+in the Vercel project environment variables before deploying.
+
+### Backend: Hugging Face Spaces
+
+The backend is set up for deployment as a Hugging Face Docker Space.
+
+Required Hugging Face Space variables/secrets:
+
+- `DATABASE_URL`
+- `SECRET_KEY`
+- `GEMINI_API_KEY`
+
+The backend Docker image is configured to serve on port `7860`, which matches Hugging Face Docker Spaces requirements.
+
+### Production Database
+
+For live deployment, use an external managed PostgreSQL database.
+
+Good free-tier options:
+
+- Neon
+- Supabase
+
+The backend already supports a full PostgreSQL connection string through `DATABASE_URL`.
+
+## Database Access
+
+For local development, `docker-compose.yml` includes:
+
+- `postgres`
+- `adminer`
+
+Start them with:
 
 ```bash
 docker-compose up -d postgres adminer
 ```
 
-Adminer is available at `http://localhost:8080`.
+Adminer runs at:
 
-## Docker
-
-To run the full local stack:
-
-```bash
-docker-compose up --build
-```
+`http://localhost:8080`
 
 ## Main Routes
 
-### Frontend
+Frontend routes:
 
 - `/`
 - `/signup`
@@ -161,7 +167,7 @@ docker-compose up --build
 - `/leaderboard`
 - `/assistant`
 
-### Backend API
+Backend routes:
 
 - `/api/auth/*`
 - `/api/dashboard/summary`
@@ -170,12 +176,8 @@ docker-compose up --build
 - `/api/leaderboard/*`
 - `/api/ai/chat`
 
-## Deployment Notes
+## Notes
 
-- The repository includes Docker configuration for local containerized development.
-- `backend/vercel.json` and `frontend/vercel.json` are included for Vercel-based deployment flows.
-- The backend currently creates tables on startup through SQLAlchemy metadata initialization.
-
-## Status
-
-This repository is structured as a full-stack application with a coding-only product scope, authenticated dashboard flow, and integrated AI-backed quiz and notes generation.
+- The frontend and backend are intentionally deployed separately.
+- The backend no longer targets Vercel in this repository.
+- The current backend creates tables automatically on startup.

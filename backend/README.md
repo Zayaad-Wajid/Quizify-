@@ -1,3 +1,12 @@
+---
+title: Quizify API
+emoji: "🚀"
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+---
+
 # Quizify Backend
 
 FastAPI backend for the Quizify coding learning platform.
@@ -16,12 +25,12 @@ pip install -r requirements.txt
 Create `backend/.env` or provide these values through your shell:
 
 ```env
-DATABASE_URL=postgresql://quizify:quizify_password@localhost:5432/quizify
+DATABASE_URL=postgresql://username:password@host:5432/database
 SECRET_KEY=your-super-secret-key-change-in-production
 GEMINI_API_KEY=your-gemini-api-key-here
 ```
 
-SQLite still works for local-only development, but the project now includes a full Postgres setup through Docker.
+For Hugging Face deployment, set these as Space Variables/Secrets in the Space Settings.
 
 ## Run Development Server
 
@@ -34,37 +43,9 @@ uvicorn app.main:app --reload --port 8000
 - Swagger UI: http://localhost:8000/docs
 - ReDoc: http://localhost:8000/redoc
 
-## Database Access
+## Hugging Face Deployment Notes
 
-### Docker Database Stack
-
-From the project root:
-
-```bash
-docker-compose up -d postgres adminer
-```
-
-Services:
-
-- PostgreSQL: `localhost:5432`
-- Adminer: `http://localhost:8080`
-
-Default credentials from `.env.example`:
-
-- System: `PostgreSQL`
-- Server: `postgres` inside Docker, or `localhost` from your host machine
-- Username: `quizify`
-- Password: `quizify_password`
-- Database: `quizify`
-
-### Manual CRUD Options
-
-1. Adminer in the browser
-2. `psql` in the terminal
-3. Any SQL client such as DBeaver, TablePlus, or pgAdmin
-
-Example `psql` connection:
-
-```bash
-psql postgresql://quizify:quizify_password@localhost:5432/quizify
-```
+- This backend is intended to be deployed as a Docker Space.
+- Hugging Face Docker Spaces expose a single public port, configured here as `7860`.
+- Use a managed external PostgreSQL database for live deployment.
+- Recommended free-tier database providers: Neon or Supabase.
