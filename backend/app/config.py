@@ -1,6 +1,7 @@
 from typing import Any
 
 from pydantic import field_validator
+from pydantic import model_validator
 from pydantic_settings import BaseSettings
 from functools import lru_cache
 
@@ -12,6 +13,11 @@ class Settings(BaseSettings):
     
     # Database
     DATABASE_URL: str = "sqlite:///./quizify.db"
+    POSTGRES_DB: str | None = None
+    POSTGRES_USER: str | None = None
+    POSTGRES_PASSWORD: str | None = None
+    POSTGRES_HOST: str | None = None
+    POSTGRES_PORT: int | None = None
     
     # JWT Settings
     SECRET_KEY: str
@@ -68,9 +74,30 @@ class Settings(BaseSettings):
             return [item.strip() for item in raw.split(",") if item.strip()]
 
         return value
+
+    @model_validator(mode="after")
+    def build_database_url_from_parts(self):
+        if self.DATABASE_URL:
+            return self
+
+        required_parts = [
+            self.POSTGRES_DB,
+            self.POSTGRES_USER,
+            self.POSTGRES_PASSWORD,
+            self.POSTGRES_HOST,
+            self.POSTGRES_PORT,
+        ]
+        if all(required_parts):
+            self.DATABASE_URL = (
+                f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
+                f"@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+            )
+
+        return self
     
     class Config:
         env_file = ".env"
+        extra = "ignore"
 
 
 @lru_cache()
